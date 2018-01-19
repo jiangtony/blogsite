@@ -8,7 +8,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 mongoose.connect("mongodb://localhost/blogsite");
 
-
+///////////////
+// MODEL SETUP
+///////////////
 var blogSchema = new mongoose.Schema({
 	title: String,
 	image: String,
@@ -19,16 +21,15 @@ var blogSchema = new mongoose.Schema({
 
 var Blog = mongoose.model("Blog", blogSchema);
 
-// Blog.create({
-// 	title: "Test Blog",
-// 	image: "https://images.unsplash.com/reserve/wrev1ljvQ6KlfyljCQG0_lion.jpg?auto=format&fit=crop&w=1510&q=80",
-// 	body: "This is a test post",
-// });
+///////////
+// ROUTES
+///////////
 
 app.get("/", function(req, res) {
 	res.redirect("/blogs");
 });
 
+// INDEX route
 app.get("/blogs", function(req, res) {
 	Blog.find({}, function(err, blogs) {
 		if(err) {
@@ -38,6 +39,36 @@ app.get("/blogs", function(req, res) {
 		}
 	})
 });
+
+// NEW route
+app.get("/blogs/new", function(req, res) {
+	res.render("new");
+});
+
+
+// CREATE route
+app.post("/blogs", function(req,res) {
+	Blog.create(req.body.blog, function(err, newBlog) {
+		if(err) {
+			res.render("new");
+		} else {
+			res.redirect("/blogs");
+		}
+	});
+});
+
+// SHOW route
+app.get("/blogs/:id", function(req, res) {
+	Blog.findById(req.params.id, function(err, foundBlog) {
+		if(err) {
+			redirect("/blogs");
+		} else {
+			res.render("show", {blog: foundBlog});
+		}
+	});
+});
+
+
 
 
 
