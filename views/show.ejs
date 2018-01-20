@@ -11,6 +11,11 @@
 			<div class="description">
 				<p><%= blog.body %></p>
 			</div>
+			<a class="ui green basic button" href="/blogs/<%=blog._id%>/edit">Edit Post</a>
+			<!-- The delete button: ?_method=DELETE used with method-override package -->
+			<form id="delete" action="/blogs/<%=blog._id%>?_method=DELETE" method="POST">
+				<button class="ui red basic button">Delete Post</button>
+			</form>
 		</div>	
 	</div>
 </div>
