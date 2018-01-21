@@ -3,7 +3,9 @@ var express = require("express"),
 		bodyParser = require("body-parser"),
 		mongoose = require("mongoose"),
 		methodOverride = require("method-override"),
-		expressSanitizer = require("express-sanitizer");
+		expressSanitizer = require("express-sanitizer"),
+		Blog = require("./models/blog");
+
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -12,18 +14,6 @@ app.use(expressSanitizer());
 app.set("view engine", "ejs");
 mongoose.connect("mongodb://localhost/blogsite");
 
-///////////////
-// MODEL SETUP
-///////////////
-var blogSchema = new mongoose.Schema({
-	title: String,
-	image: String,
-	body: String,
-	created: 
-		{type: Date, default: Date.now},
-});
-
-var Blog = mongoose.model("Blog", blogSchema);
 
 ///////////////
 // ROUTES
